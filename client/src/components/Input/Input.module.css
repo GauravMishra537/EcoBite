@@ -1,0 +1,70 @@
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+}
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    outline: none;
+    transition: all var(--transition-base);
+}
+
+.input::placeholder {
+    color: var(--text-muted);
+}
+
+.input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-100);
+}
+
+.input--error {
+    border-color: var(--color-error);
+}
+
+.input--error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.icon {
+    position: absolute;
+    left: var(--space-3);
+    color: var(--text-muted);
+    font-size: var(--font-size-lg);
+    pointer-events: none;
+}
+
+.input--withIcon {
+    padding-left: var(--space-10);
+}
+
+.error {
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    margin-top: var(--space-1);
+}
+
+/* Textarea */
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+}
