@@ -1,0 +1,206 @@
+.auth {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, #fff 40%, #fef3c7 100%);
+    padding: var(--space-6);
+}
+
+.auth__container {
+    width: 100%;
+    max-width: 460px;
+    animation: authFadeIn 0.5s ease forwards;
+}
+
+.auth__card {
+    background: var(--bg-card);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    padding: var(--space-10);
+    border: 1px solid var(--color-gray-100);
+}
+
+/* ─── Header ──────────────────────────────────────────── */
+.auth__header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.auth__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    margin-bottom: var(--space-5);
+}
+
+.auth__logoIcon {
+    font-size: 2rem;
+}
+
+.auth__logoText {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extrabold);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.auth__title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-2);
+}
+
+.auth__subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* ─── Form ────────────────────────────────────────────── */
+.auth__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.auth__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+/* ─── Divider ─────────────────────────────────────────── */
+.auth__divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin: var(--space-2) 0;
+}
+
+.auth__divider::before,
+.auth__divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-gray-200);
+}
+
+.auth__dividerText {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* ─── Footer ──────────────────────────────────────────── */
+.auth__footer {
+    text-align: center;
+    margin-top: var(--space-6);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.auth__footerLink {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    margin-left: var(--space-1);
+}
+
+.auth__footerLink:hover {
+    text-decoration: underline;
+}
+
+/* ─── Role Selector ──────────────────────────────────── */
+.auth__roles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+}
+
+.auth__roleBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-2);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+}
+
+.auth__roleBtn:hover {
+    border-color: var(--color-primary-200);
+    background: var(--color-primary-50);
+}
+
+.auth__roleBtn--active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-50);
+    color: var(--color-primary-700);
+}
+
+.auth__roleIcon {
+    font-size: 1.4rem;
+}
+
+/* ─── Password Toggle ─────────────────────────────────── */
+.auth__passwordWrapper {
+    position: relative;
+}
+
+.auth__passwordToggle {
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    padding: var(--space-1);
+    display: flex;
+    align-items: center;
+    transition: color var(--transition-fast);
+}
+
+.auth__passwordToggle:hover {
+    color: var(--text-primary);
+}
+
+/* ─── Animation ───────────────────────────────────────── */
+@keyframes authFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+@media (max-width: 480px) {
+    .auth__card {
+        padding: var(--space-6);
+    }
+
+    .auth__row {
+        grid-template-columns: 1fr;
+    }
+
+    .auth__roles {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

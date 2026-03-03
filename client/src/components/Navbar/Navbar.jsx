@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { HiOutlineShoppingBag, HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { HiOutlineShoppingBag, HiOutlineMenu, HiOutlineX, HiOutlineLogout, HiOutlineUser } from 'react-icons/hi';
+import { useAuth } from '../../context/AuthContext';
 import Button from '../Button/Button';
 import styles from './Navbar.module.css';
 
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const { user, isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
 
     const navLinks = [
         { to: '/', label: 'Home' },
@@ -13,6 +16,11 @@ const Navbar = () => {
         { to: '/grocery', label: 'Grocery' },
         { to: '/subscription', label: 'Subscription' },
     ];
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/');
+    };
 
     return (
         <nav className={styles.navbar}>
@@ -46,11 +54,37 @@ const Navbar = () => {
                             <span className={styles.navbar__cartBadge}>0</span>
                         </button>
                     </Link>
-                    <Link to="/login">
-                        <Button variant="primary" size="sm">
-                            Sign In
-                        </Button>
-                    </Link>
+
+                    {isAuthenticated ? (
+                        <div className={styles.navbar__userMenu}>
+                            <button className={styles.navbar__userBtn} aria-label="User menu">
+                                <HiOutlineUser />
+                                <span className={styles.navbar__userName}>
+                                    {user?.name?.split(' ')[0]}
+                                </span>
+                            </button>
+                            <div className={styles.navbar__dropdown}>
+                                <Link to="/profile" className={styles.navbar__dropdownItem}>
+                                    <HiOutlineUser /> My Profile
+                                </Link>
+                                <Link to="/orders" className={styles.navbar__dropdownItem}>
+                                    <HiOutlineShoppingBag /> My Orders
+                                </Link>
+                                <button
+                                    className={styles.navbar__dropdownItem}
+                                    onClick={handleLogout}
+                                >
+                                    <HiOutlineLogout /> Logout
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <Link to="/login">
+                            <Button variant="primary" size="sm">
+                                Sign In
+                            </Button>
+                        </Link>
+                    )}
 
                     {/* Mobile Menu Toggle */}
                     <button
@@ -78,6 +112,11 @@ const Navbar = () => {
                         {link.label}
                     </NavLink>
                 ))}
+                {isAuthenticated && (
+                    <button className={styles.navbar__link} onClick={handleLogout}>
+                        Logout
+                    </button>
+                )}
             </div>
         </nav>
     );
