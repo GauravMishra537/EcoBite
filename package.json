@@ -1,0 +1,31 @@
+{
+  "name": "ecobite",
+  "version": "1.0.0",
+  "description": "EcoBite — One-stop MERN stack food & grocery delivery platform with cloud kitchens, subscriptions, table booking, NGO food sharing, and real-time tracking.",
+  "private": true,
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "install:all": "npm run install:server && npm run install:client",
+    "build:client": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "seed": "cd server && npm run seed"
+  },
+  "keywords": [
+    "food-delivery",
+    "mern-stack",
+    "cloud-kitchen",
+    "grocery-delivery",
+    "real-time-tracking",
+    "stripe-payments",
+    "table-booking"
+  ],
+  "author": "Gaurav",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
