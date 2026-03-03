@@ -12,6 +12,7 @@ const errorHandler = require('./middleware/error');
 
 // Route files
 const healthRoutes = require('./routes/health');
+const authRoutes = require('./routes/auth');
 
 // Connect to MongoDB
 connectDB();
@@ -45,6 +46,7 @@ if (env.NODE_ENV === 'development') {
 
 // ─── API Routes ──────────────────────────────────────────
 app.use('/api/health', healthRoutes);
+app.use('/api/auth', authRoutes);
 
 // ─── Serve Client in Production ──────────────────────────
 if (env.NODE_ENV === 'production') {
