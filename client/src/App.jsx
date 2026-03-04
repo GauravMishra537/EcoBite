@@ -17,6 +17,7 @@ import KitchenDashboard from './pages/CloudKitchen/KitchenDashboard';
 import SubscriptionPage from './pages/Subscription/SubscriptionPage';
 import BookTable from './pages/Booking/BookTable';
 import MyBookingsPage from './pages/Booking/MyBookings';
+import FoodSharingPage from './pages/FoodSharing/FoodSharingPage';
 import NotFound from './pages/NotFound/NotFound';
 
 const App = () => {
@@ -61,6 +62,7 @@ const App = () => {
                 <Route path="/subscription" element={<SubscriptionPage />} />
                 <Route path="/book-table" element={<BookTable />} />
                 <Route path="/bookings" element={<MyBookingsPage />} />
+                <Route path="/food-sharing" element={<FoodSharingPage />} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>
