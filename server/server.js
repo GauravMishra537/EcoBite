@@ -21,6 +21,7 @@ const paymentRoutes = require('./routes/payments');
 const cloudKitchenRoutes = require('./routes/cloudKitchen');
 const subscriptionRoutes = require('./routes/subscriptions');
 const bookingRoutes = require('./routes/bookings');
+const foodSharingRoutes = require('./routes/foodSharing');
 
 // Connect to MongoDB
 connectDB();
@@ -63,6 +64,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/cloud-kitchen', cloudKitchenRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/food-sharing', foodSharingRoutes);
 
 // ─── Serve Client in Production ──────────────────────────
 if (env.NODE_ENV === 'production') {
