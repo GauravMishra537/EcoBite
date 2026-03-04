@@ -19,6 +19,7 @@ const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
 const paymentRoutes = require('./routes/payments');
 const cloudKitchenRoutes = require('./routes/cloudKitchen');
+const subscriptionRoutes = require('./routes/subscriptions');
 
 // Connect to MongoDB
 connectDB();
@@ -59,6 +60,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/cloud-kitchen', cloudKitchenRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
 
 // ─── Serve Client in Production ──────────────────────────
 if (env.NODE_ENV === 'production') {

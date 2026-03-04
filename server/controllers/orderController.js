@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
 const Restaurant = require('../models/Restaurant');
+const Subscription = require('../models/Subscription');
 const ErrorResponse = require('../utils/errorResponse');
 const { emitOrderUpdate, emitNewOrder } = require('../socket');
 
@@ -49,9 +50,22 @@ exports.placeOrder = async (req, res, next) => {
             );
         }
 
-        const deliveryFee = restaurant.deliveryFee || 0;
+        let deliveryFee = restaurant.deliveryFee || 0;
+        let discount = 0;
         const tax = Math.round(subtotal * 0.05 * 100) / 100; // 5% GST
-        const total = subtotal + deliveryFee + tax;
+
+        // Check subscription benefits (free delivery + discount)
+        const subscription = await Subscription.findActiveForUser(req.user.id);
+        if (subscription) {
+            if (subscription.benefits?.freeDelivery) {
+                deliveryFee = 0;
+            }
+            if (subscription.benefits?.discountPercent > 0) {
+                discount = Math.round(subtotal * (subscription.benefits.discountPercent / 100) * 100) / 100;
+            }
+        }
+
+        const total = subtotal + deliveryFee + tax - discount;
 
         // Calculate estimated delivery time
         const maxDeliveryMin = restaurant.deliveryTime?.max || 40;
