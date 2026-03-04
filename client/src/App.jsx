@@ -5,6 +5,8 @@ import { Navbar, Footer } from './components';
 import Home from './pages/Home/Home';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
+import Restaurants from './pages/Restaurants/Restaurants';
+import RestaurantDetail from './pages/Restaurants/RestaurantDetail';
 import NotFound from './pages/NotFound/NotFound';
 
 const App = () => {
@@ -35,9 +37,10 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/restaurants" element={<Restaurants />} />
+            <Route path="/restaurants/:id" element={<RestaurantDetail />} />
 
             {/* Placeholder routes — will be implemented in future commits */}
-            <Route path="/restaurants" element={<PlaceholderPage title="Restaurants" emoji="🍽️" />} />
             <Route path="/grocery" element={<PlaceholderPage title="Grocery" emoji="🛒" />} />
             <Route path="/subscription" element={<PlaceholderPage title="Subscription" emoji="💎" />} />
             <Route path="/cart" element={<PlaceholderPage title="Cart" emoji="🛍️" />} />
