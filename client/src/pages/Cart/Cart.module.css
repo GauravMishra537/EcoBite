@@ -310,6 +310,20 @@
     font-size: 1.5rem;
 }
 
+.checkout__stripeCard {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    background: var(--bg-primary);
+    transition: border-color var(--transition-fast);
+}
+
+.checkout__stripeCard:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-100);
+}
+
 .checkout__actions {
     display: flex;
     gap: var(--space-3);

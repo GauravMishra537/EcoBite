@@ -1,15 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HiOutlineTrash, HiPlus, HiMinus, HiCreditCard, HiCash } from 'react-icons/hi';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { HiOutlineTrash, HiPlus, HiMinus } from 'react-icons/hi';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { placeOrder } from '../../services/orderService';
+import { createPaymentIntent, confirmPayment } from '../../services/paymentService';
 import { Button, Input } from '../../components';
 import toast from 'react-hot-toast';
 import styles from './Cart.module.css';
 
+// Load Stripe outside of component to avoid recreating on each render
+const stripePromise = loadStripe(
+    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ||
+    'pk_test_51T76MLHCTxKDmJoCOAyYeGHnaOJ2UBKGwnK6Nbje0nOSuZXKPkSzPKqNwM4KqrHFiz6Z19jYnzzPfVa5lHzpp8VU00vZeVh3vC'
+);
+
+const CARD_ELEMENT_OPTIONS = {
+    style: {
+        base: {
+            fontSize: '16px',
+            color: '#1f2937',
+            fontFamily: '"Inter", system-ui, sans-serif',
+            '::placeholder': { color: '#9ca3af' },
+        },
+        invalid: { color: '#ef4444' },
+    },
+};
+
 const CartPage = () => {
-    const { cart, totalItems, subtotal, updateItem, removeItem, clearAll } = useCart();
+    const { cart, totalItems, subtotal, updateItem, removeItem, clearAll, fetchCart } = useCart();
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [showCheckout, setShowCheckout] = useState(false);
@@ -56,7 +77,6 @@ const CartPage = () => {
                 <div className={styles.cart__layout}>
                     {/* Left — Items */}
                     <div>
-                        {/* Restaurant Info */}
                         {cart.restaurant && (
                             <div className={styles.cart__restaurant}>
                                 <img
@@ -73,7 +93,6 @@ const CartPage = () => {
                             </div>
                         )}
 
-                        {/* Items */}
                         <div className={styles.cart__items}>
                             {cart.items.map((item) => (
                                 <div key={item._id} className={styles.cart__item}>
@@ -154,26 +173,33 @@ const CartPage = () => {
                 </div>
             </div>
 
-            {/* Checkout Modal */}
+            {/* Checkout Modal — wrapped in Stripe Elements */}
             {showCheckout && (
-                <CheckoutModal
-                    total={total}
-                    subtotal={subtotal}
-                    deliveryFee={deliveryFee}
-                    tax={tax}
-                    onClose={() => setShowCheckout(false)}
-                    onSuccess={(orderId) => {
-                        setShowCheckout(false);
-                        navigate(`/orders/${orderId}`);
-                    }}
-                />
+                <Elements stripe={stripePromise}>
+                    <CheckoutModal
+                        total={total}
+                        subtotal={subtotal}
+                        deliveryFee={deliveryFee}
+                        tax={tax}
+                        onClose={() => setShowCheckout(false)}
+                        onSuccess={(orderId) => {
+                            setShowCheckout(false);
+                            fetchCart();
+                            navigate(`/orders/${orderId}`);
+                        }}
+                    />
+                </Elements>
             )}
         </div>
     );
 };
 
-/* ─── Checkout Modal ──────────────────────────────────── */
+/* ─── Checkout Modal with Stripe ──────────────────────── */
 const CheckoutModal = ({ total, subtotal, deliveryFee, tax, onClose, onSuccess }) => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const { fetchCart } = useCart();
+
     const [address, setAddress] = useState({
         street: '', city: '', state: '', zipCode: '',
     });
@@ -192,14 +218,55 @@ const CheckoutModal = ({ total, subtotal, deliveryFee, tax, onClose, onSuccess }
         }
 
         setPlacing(true);
+
         try {
-            const data = await placeOrder({
-                deliveryAddress: address,
-                paymentMethod,
-                notes,
-            });
-            toast.success('Order placed successfully! 🎉');
-            onSuccess(data.order._id);
+            if (paymentMethod === 'cod') {
+                // COD — use existing order placement flow
+                const data = await placeOrder({
+                    deliveryAddress: address,
+                    paymentMethod: 'cod',
+                    notes,
+                });
+                toast.success('Order placed successfully! 🎉');
+                onSuccess(data.order._id);
+            } else {
+                // Online — Stripe flow
+                if (!stripe || !elements) {
+                    toast.error('Stripe is still loading. Please try again.');
+                    setPlacing(false);
+                    return;
+                }
+
+                // 1. Create PaymentIntent on server
+                const intentData = await createPaymentIntent({
+                    deliveryAddress: address,
+                    notes,
+                });
+
+                // 2. Confirm card payment on client
+                const { error, paymentIntent } = await stripe.confirmCardPayment(
+                    intentData.clientSecret,
+                    {
+                        payment_method: {
+                            card: elements.getElement(CardElement),
+                        },
+                    }
+                );
+
+                if (error) {
+                    toast.error(error.message || 'Payment failed');
+                    setPlacing(false);
+                    return;
+                }
+
+                if (paymentIntent.status === 'succeeded') {
+                    // 3. Confirm on server
+                    const confirmData = await confirmPayment(intentData.orderId, paymentIntent.id);
+                    toast.success('Payment successful! Order placed 🎉');
+                    fetchCart();
+                    onSuccess(confirmData.order._id);
+                }
+            }
         } catch (err) {
             toast.error(err.response?.data?.error || 'Failed to place order');
         } finally {
@@ -252,7 +319,7 @@ const CheckoutModal = ({ total, subtotal, deliveryFee, tax, onClose, onSuccess }
                     </div>
                 </div>
 
-                {/* Payment */}
+                {/* Payment Method */}
                 <div className={styles.checkout__section}>
                     <h3 className={styles.checkout__sectionTitle}>💳 Payment Method</h3>
                     <div className={styles.checkout__paymentOptions}>
@@ -271,10 +338,12 @@ const CheckoutModal = ({ total, subtotal, deliveryFee, tax, onClose, onSuccess }
                             Pay Online
                         </button>
                     </div>
+
+                    {/* Stripe Card Element */}
                     {paymentMethod === 'online' && (
-                        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)', marginTop: 'var(--space-2)' }}>
-                            Stripe payment will be integrated in the next commit.
-                        </p>
+                        <div className={styles.checkout__stripeCard}>
+                            <CardElement options={CARD_ELEMENT_OPTIONS} />
+                        </div>
                     )}
                 </div>
 
@@ -286,7 +355,6 @@ const CheckoutModal = ({ total, subtotal, deliveryFee, tax, onClose, onSuccess }
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="Any special instructions..."
-                        as="textarea"
                     />
                 </div>
 
@@ -304,7 +372,7 @@ const CheckoutModal = ({ total, subtotal, deliveryFee, tax, onClose, onSuccess }
                 <div className={styles.checkout__actions}>
                     <Button variant="outline" fullWidth onClick={onClose}>Cancel</Button>
                     <Button variant="primary" fullWidth loading={placing} onClick={handlePlaceOrder}>
-                        Place Order — ₹{total}
+                        {paymentMethod === 'online' ? `Pay ₹${total}` : `Place Order — ₹${total}`}
                     </Button>
                 </div>
             </div>
