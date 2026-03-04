@@ -12,6 +12,8 @@ import RestaurantDetail from './pages/Restaurants/RestaurantDetail';
 import CartPage from './pages/Cart/Cart';
 import OrderDetail from './pages/Orders/OrderDetail';
 import MyOrders from './pages/Orders/MyOrders';
+import RegisterKitchen from './pages/CloudKitchen/RegisterKitchen';
+import KitchenDashboard from './pages/CloudKitchen/KitchenDashboard';
 import NotFound from './pages/NotFound/NotFound';
 
 const App = () => {
@@ -49,7 +51,8 @@ const App = () => {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/orders" element={<MyOrders />} />
                 <Route path="/orders/:id" element={<OrderDetail />} />
-
+                <Route path="/cloud-kitchen/register" element={<RegisterKitchen />} />
+                <Route path="/cloud-kitchen/dashboard" element={<KitchenDashboard />} />
                 {/* Placeholder routes — will be implemented in future commits */}
                 <Route path="/grocery" element={<PlaceholderPage title="Grocery" emoji="🛒" />} />
                 <Route path="/subscription" element={<PlaceholderPage title="Subscription" emoji="💎" />} />

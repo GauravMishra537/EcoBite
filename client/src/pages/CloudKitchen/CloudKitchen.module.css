@@ -1,0 +1,320 @@
+.ck {
+    padding: var(--space-8) 0 var(--space-16);
+    min-height: 70vh;
+}
+
+.ck__title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-extrabold);
+    margin-bottom: var(--space-2);
+}
+
+.ck__subtitle {
+    color: var(--text-muted);
+    margin-bottom: var(--space-8);
+}
+
+/* ─── Registration ────────────────────────────────────── */
+.ck__regCard {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-8);
+    background: var(--bg-card);
+    border: 1px solid var(--color-gray-100);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-md);
+}
+
+.ck__regTitle {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+    margin-bottom: var(--space-2);
+}
+
+.ck__regSubtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: var(--space-6);
+}
+
+.ck__regIcon {
+    text-align: center;
+    font-size: 4rem;
+    margin-bottom: var(--space-4);
+}
+
+.ck__regGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+}
+
+.ck__regFull {
+    grid-column: 1 / -1;
+}
+
+/* ─── Dashboard ───────────────────────────────────────── */
+.ck__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.ck__headerLeft {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.ck__kitchenName {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extrabold);
+}
+
+.ck__statusBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition-fast);
+}
+
+.ck__statusBadge--open {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.ck__statusBadge--closed {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ─── Stats Grid ──────────────────────────────────────── */
+.ck__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.ck__statCard {
+    padding: var(--space-5);
+    background: var(--bg-card);
+    border: 1px solid var(--color-gray-100);
+    border-radius: var(--radius-xl);
+    text-align: center;
+}
+
+.ck__statIcon {
+    font-size: 2rem;
+    margin-bottom: var(--space-2);
+}
+
+.ck__statValue {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extrabold);
+    color: var(--color-primary-700);
+}
+
+.ck__statLabel {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-top: var(--space-1);
+}
+
+/* ─── Tabs ────────────────────────────────────────────── */
+.ck__tabs {
+    display: flex;
+    gap: var(--space-1);
+    margin-bottom: var(--space-6);
+    border-bottom: 2px solid var(--color-gray-100);
+}
+
+.ck__tab {
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.ck__tab:hover {
+    color: var(--text-primary);
+}
+
+.ck__tab--active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+/* ─── Orders Table ────────────────────────────────────── */
+.ck__orderRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-card);
+    border: 1px solid var(--color-gray-100);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-3);
+}
+
+.ck__orderId {
+    font-family: monospace;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    min-width: 80px;
+}
+
+.ck__orderCustomer {
+    flex: 1;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+}
+
+.ck__orderTotal {
+    font-weight: var(--font-weight-bold);
+    min-width: 70px;
+    text-align: right;
+}
+
+.ck__orderStatus {
+    min-width: 120px;
+}
+
+.ck__orderStatusSelect {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    cursor: pointer;
+}
+
+/* ─── Menu Grid ───────────────────────────────────────── */
+.ck__menuGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+}
+
+.ck__menuCard {
+    padding: var(--space-4);
+    background: var(--bg-card);
+    border: 1px solid var(--color-gray-100);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.ck__menuCardVeg {
+    width: 14px;
+    height: 14px;
+    border: 2px solid;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ck__menuCardVeg--veg {
+    border-color: #16a34a;
+}
+
+.ck__menuCardVeg--nonveg {
+    border-color: #dc2626;
+}
+
+.ck__menuCardVegDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.ck__menuCardVegDot--veg {
+    background: #16a34a;
+}
+
+.ck__menuCardVegDot--nonveg {
+    background: #dc2626;
+}
+
+.ck__menuCardInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.ck__menuCardName {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+}
+
+.ck__menuCardPrice {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.ck__menuCardCategory {
+    font-size: var(--font-size-xs);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+/* ─── Add Item Form ───────────────────────────────────── */
+.ck__addForm {
+    padding: var(--space-6);
+    background: var(--color-primary-50);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-6);
+}
+
+.ck__addFormTitle {
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-4);
+}
+
+.ck__addFormGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+}
+
+/* ─── Empty ───────────────────────────────────────────── */
+.ck__empty {
+    text-align: center;
+    padding: var(--space-12);
+    color: var(--text-muted);
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+@media (max-width: 768px) {
+    .ck__regGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .ck__stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ck__orderRow {
+        flex-wrap: wrap;
+    }
+}
