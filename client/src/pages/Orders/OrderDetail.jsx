@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { HiArrowLeft, HiCheck } from 'react-icons/hi';
-import { Loader, Button } from '../../components';
+import { Loader, Button, LiveTracking } from '../../components';
 import { useSocket } from '../../context/SocketContext';
 import { getOrder, cancelOrder } from '../../services/orderService';
 import toast from 'react-hot-toast';
@@ -117,6 +117,11 @@ const OrderDetail = () => {
                             {order.paymentMethod === 'online' && ' Payment received.'}
                         </p>
                     </div>
+                )}
+
+                {/* Live Tracking Map */}
+                {!isCancelled && order.status !== 'delivered' && (
+                    <LiveTracking order={order} isConnected={isConnected} />
                 )}
 
                 <div className={styles.orderDetail__layout}>

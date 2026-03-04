@@ -1,0 +1,287 @@
+/* ─── Live Tracking Component ─────────────────────────── */
+.tracking {
+    background: var(--bg-card);
+    border: 1px solid var(--color-gray-100);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    margin-bottom: var(--space-6);
+}
+
+.tracking__mapContainer {
+    position: relative;
+    height: 280px;
+    background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 40%, #ede9fe 100%);
+    overflow: hidden;
+}
+
+/* Animated road path */
+.tracking__road {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--color-gray-300);
+}
+
+.tracking__roadProgress {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 2px;
+    transition: width 1s ease;
+}
+
+/* Markers */
+.tracking__restaurant {
+    position: absolute;
+    bottom: 42px;
+    left: 30px;
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+}
+
+.tracking__destination {
+    position: absolute;
+    bottom: 42px;
+    right: 30px;
+    font-size: 2rem;
+}
+
+.tracking__rider {
+    position: absolute;
+    bottom: 38px;
+    font-size: 2.5rem;
+    transition: left 1.5s ease;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.tracking__riderPulse {
+    position: absolute;
+    bottom: 48px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    opacity: 0.3;
+    transition: left 1.5s ease;
+    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Buildings */
+.tracking__buildings {
+    position: absolute;
+    bottom: 64px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    opacity: 0.15;
+}
+
+.tracking__building {
+    width: 24px;
+    background: var(--color-gray-600);
+    border-radius: 2px 2px 0 0;
+}
+
+/* Cloud decorations */
+.tracking__cloud {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.2;
+    animation: float 20s linear infinite;
+}
+
+.tracking__cloud:nth-child(1) {
+    top: 15px;
+    animation-duration: 25s;
+}
+
+.tracking__cloud:nth-child(2) {
+    top: 40px;
+    animation-duration: 18s;
+    animation-delay: -8s;
+}
+
+.tracking__cloud:nth-child(3) {
+    top: 25px;
+    animation-duration: 22s;
+    animation-delay: -14s;
+}
+
+/* ─── Info Panel ──────────────────────────────────────── */
+.tracking__info {
+    padding: var(--space-5);
+}
+
+.tracking__infoHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.tracking__statusText {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+}
+
+.tracking__statusEmoji {
+    font-size: 1.5rem;
+    margin-right: var(--space-2);
+}
+
+.tracking__liveBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-full);
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.tracking__liveDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: blink 1s step-end infinite;
+}
+
+/* ─── ETA Card ────────────────────────────────────────── */
+.tracking__eta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--color-primary-50);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-4);
+}
+
+.tracking__etaTime {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-extrabold);
+    color: var(--color-primary-700);
+    line-height: 1;
+}
+
+.tracking__etaLabel {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.tracking__etaText {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* ─── Rider Card ──────────────────────────────────────── */
+.tracking__riderCard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border: 1px solid var(--color-gray-100);
+    border-radius: var(--radius-xl);
+}
+
+.tracking__riderAvatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary-200), var(--color-primary-400));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.tracking__riderInfo {
+    flex: 1;
+}
+
+.tracking__riderName {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+}
+
+.tracking__riderMeta {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.tracking__riderCall {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* ─── Animations ──────────────────────────────────────── */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes ping {
+
+    75%,
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+    0% {
+        left: -50px;
+    }
+
+    100% {
+        left: calc(100% + 50px);
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+@media (max-width: 768px) {
+    .tracking__mapContainer {
+        height: 200px;
+    }
+
+    .tracking__eta {
+        flex-direction: column;
+        text-align: center;
+    }
+}
