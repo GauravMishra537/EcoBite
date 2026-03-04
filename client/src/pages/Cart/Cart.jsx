@@ -185,7 +185,7 @@ const CartPage = () => {
                         onSuccess={(orderId) => {
                             setShowCheckout(false);
                             fetchCart();
-                            navigate(`/orders/${orderId}`);
+                            navigate(`/orders/${orderId}?new=1`);
                         }}
                     />
                 </Elements>

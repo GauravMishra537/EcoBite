@@ -9,6 +9,8 @@ import Register from './pages/Auth/Register';
 import Restaurants from './pages/Restaurants/Restaurants';
 import RestaurantDetail from './pages/Restaurants/RestaurantDetail';
 import CartPage from './pages/Cart/Cart';
+import OrderDetail from './pages/Orders/OrderDetail';
+import MyOrders from './pages/Orders/MyOrders';
 import NotFound from './pages/NotFound/NotFound';
 
 const App = () => {
@@ -43,11 +45,12 @@ const App = () => {
               <Route path="/restaurants" element={<Restaurants />} />
               <Route path="/restaurants/:id" element={<RestaurantDetail />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/orders" element={<MyOrders />} />
+              <Route path="/orders/:id" element={<OrderDetail />} />
 
               {/* Placeholder routes — will be implemented in future commits */}
               <Route path="/grocery" element={<PlaceholderPage title="Grocery" emoji="🛒" />} />
               <Route path="/subscription" element={<PlaceholderPage title="Subscription" emoji="💎" />} />
-              <Route path="/orders/:id" element={<PlaceholderPage title="Order Details" emoji="📦" />} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
