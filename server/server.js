@@ -16,6 +16,7 @@ const authRoutes = require('./routes/auth');
 const restaurantRoutes = require('./routes/restaurants');
 const menuRoutes = require('./routes/menu');
 const cartRoutes = require('./routes/cart');
+const orderRoutes = require('./routes/orders');
 
 // Connect to MongoDB
 connectDB();
@@ -53,6 +54,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
 
 // ─── Serve Client in Production ──────────────────────────
 if (env.NODE_ENV === 'production') {
