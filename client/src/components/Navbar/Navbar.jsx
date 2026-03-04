@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { HiOutlineShoppingBag, HiOutlineMenu, HiOutlineX, HiOutlineLogout, HiOutlineUser } from 'react-icons/hi';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 import Button from '../Button/Button';
 import styles from './Navbar.module.css';
 
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const { user, isAuthenticated, logout } = useAuth();
+    const { totalItems } = useCart();
     const navigate = useNavigate();
 
     const navLinks = [
@@ -51,7 +53,7 @@ const Navbar = () => {
                     <Link to="/cart">
                         <button className={styles.navbar__cartBtn} aria-label="Cart">
                             <HiOutlineShoppingBag />
-                            <span className={styles.navbar__cartBadge}>0</span>
+                            <span className={styles.navbar__cartBadge}>{totalItems}</span>
                         </button>
                     </Link>
 

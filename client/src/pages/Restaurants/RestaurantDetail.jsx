@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { HiArrowLeft, HiStar, HiClock, HiCurrencyRupee, HiLocationMarker } from 'react-icons/hi';
 import { Loader } from '../../components';
+import { useCart } from '../../context/CartContext';
 import { getRestaurant } from '../../services/restaurantService';
 import toast from 'react-hot-toast';
 import styles from './RestaurantDetail.module.css';
@@ -14,6 +15,7 @@ const RestaurantDetail = () => {
     const [activeCategory, setActiveCategory] = useState('');
     const [vegFilter, setVegFilter] = useState('all'); // all | veg | nonveg
     const categoryRefs = useRef({});
+    const { addItem } = useCart();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -176,14 +178,14 @@ const RestaurantDetail = () => {
                                                 <div className={styles.menuItem__info}>
                                                     <div
                                                         className={`${styles.menuItem__vegBadge} ${item.isVeg
-                                                                ? styles['menuItem__vegBadge--veg']
-                                                                : styles['menuItem__vegBadge--nonveg']
+                                                            ? styles['menuItem__vegBadge--veg']
+                                                            : styles['menuItem__vegBadge--nonveg']
                                                             }`}
                                                     >
                                                         <div
                                                             className={`${styles.menuItem__vegDot} ${item.isVeg
-                                                                    ? styles['menuItem__vegDot--veg']
-                                                                    : styles['menuItem__vegDot--nonveg']
+                                                                ? styles['menuItem__vegDot--veg']
+                                                                : styles['menuItem__vegDot--nonveg']
                                                                 }`}
                                                         />
                                                     </div>
@@ -194,7 +196,7 @@ const RestaurantDetail = () => {
                                                     )}
                                                     <button
                                                         className={styles.menuItem__addBtn}
-                                                        onClick={() => toast.success(`${item.name} — cart coming in Commit 8!`)}
+                                                        onClick={() => addItem(item._id)}
                                                     >
                                                         ADD +
                                                     </button>
