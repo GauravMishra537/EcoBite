@@ -15,6 +15,8 @@ import MyOrders from './pages/Orders/MyOrders';
 import RegisterKitchen from './pages/CloudKitchen/RegisterKitchen';
 import KitchenDashboard from './pages/CloudKitchen/KitchenDashboard';
 import SubscriptionPage from './pages/Subscription/SubscriptionPage';
+import BookTable from './pages/Booking/BookTable';
+import MyBookingsPage from './pages/Booking/MyBookings';
 import NotFound from './pages/NotFound/NotFound';
 
 const App = () => {
@@ -57,6 +59,8 @@ const App = () => {
                 {/* Placeholder routes — will be implemented in future commits */}
                 <Route path="/grocery" element={<PlaceholderPage title="Grocery" emoji="🛒" />} />
                 <Route path="/subscription" element={<SubscriptionPage />} />
+                <Route path="/book-table" element={<BookTable />} />
+                <Route path="/bookings" element={<MyBookingsPage />} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>
