@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { HiArrowLeft, HiCheck } from 'react-icons/hi';
 import { Loader, Button } from '../../components';
+import { useSocket } from '../../context/SocketContext';
 import { getOrder, cancelOrder } from '../../services/orderService';
 import toast from 'react-hot-toast';
 import styles from './Orders.module.css';
@@ -37,6 +38,36 @@ const OrderDetail = () => {
         };
         fetchOrder();
     }, [id]);
+
+    // Real-time: join order room and listen for updates
+    const { socket, joinOrderRoom, leaveOrderRoom, isConnected } = useSocket();
+
+    useEffect(() => {
+        if (!id || !socket) return;
+
+        joinOrderRoom(id);
+
+        const handleStatusUpdate = (data) => {
+            if (data.orderId === id) {
+                setOrder((prev) => ({
+                    ...prev,
+                    status: data.status,
+                    paymentStatus: data.paymentStatus,
+                    deliveredAt: data.deliveredAt,
+                    cancelledAt: data.cancelledAt,
+                    cancelReason: data.cancelReason,
+                }));
+                toast.success(`Order status updated to: ${data.status.replace(/_/g, ' ')}`);
+            }
+        };
+
+        socket.on('order:statusUpdate', handleStatusUpdate);
+
+        return () => {
+            leaveOrderRoom(id);
+            socket.off('order:statusUpdate', handleStatusUpdate);
+        };
+    }, [id, socket]);
 
     const handleCancel = async () => {
         if (!window.confirm('Are you sure you want to cancel this order?')) return;
@@ -94,7 +125,14 @@ const OrderDetail = () => {
                         {/* Status Tracker */}
                         {!isCancelled ? (
                             <div className={styles.orderDetail__tracker}>
-                                <h3 className={styles.orderDetail__trackerTitle}>Order Status</h3>
+                                <h3 className={styles.orderDetail__trackerTitle}>
+                                    Order Status
+                                    {isConnected && (
+                                        <span style={{ fontSize: '0.6rem', color: 'var(--color-primary)', marginLeft: 'var(--space-2)', fontWeight: 400 }}>
+                                            ● Live
+                                        </span>
+                                    )}
+                                </h3>
                                 <div className={styles.orderDetail__steps}>
                                     {STATUS_STEPS.map((step, i) => (
                                         <div key={step.key} className={styles.orderDetail__step}>
@@ -106,10 +144,10 @@ const OrderDetail = () => {
                                             )}
                                             <div
                                                 className={`${styles.orderDetail__stepDot} ${i < currentStepIndex
-                                                        ? styles['orderDetail__stepDot--done']
-                                                        : i === currentStepIndex
-                                                            ? styles['orderDetail__stepDot--active']
-                                                            : ''
+                                                    ? styles['orderDetail__stepDot--done']
+                                                    : i === currentStepIndex
+                                                        ? styles['orderDetail__stepDot--active']
+                                                        : ''
                                                     }`}
                                             >
                                                 {i < currentStepIndex ? <HiCheck /> : step.icon}

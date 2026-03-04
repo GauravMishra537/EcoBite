@@ -75,9 +75,15 @@ app.use(errorHandler);
 // ─── Start Server ────────────────────────────────────────
 const PORT = env.PORT;
 
+const { initSocket } = require('./socket');
+
 const server = app.listen(PORT, () => {
     console.log(`🚀 EcoBite server running in ${env.NODE_ENV} mode on port ${PORT}`);
 });
+
+// Attach Socket.IO to the HTTP server
+initSocket(server);
+console.log('🔌 Socket.IO attached to server');
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {

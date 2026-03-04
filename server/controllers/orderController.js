@@ -2,6 +2,7 @@ const Order = require('../models/Order');
 const Cart = require('../models/Cart');
 const Restaurant = require('../models/Restaurant');
 const ErrorResponse = require('../utils/errorResponse');
+const { emitOrderUpdate, emitNewOrder } = require('../socket');
 
 /**
  * @desc    Place order from cart
@@ -92,6 +93,9 @@ exports.placeOrder = async (req, res, next) => {
             success: true,
             order: populatedOrder,
         });
+
+        // Emit real-time event
+        emitNewOrder(order);
     } catch (err) {
         next(err);
     }
@@ -270,6 +274,9 @@ exports.updateOrderStatus = async (req, res, next) => {
             success: true,
             order: updatedOrder,
         });
+
+        // Emit real-time status update
+        emitOrderUpdate(order);
     } catch (err) {
         next(err);
     }
@@ -316,6 +323,9 @@ exports.cancelOrder = async (req, res, next) => {
             success: true,
             order: updatedOrder,
         });
+
+        // Emit real-time cancel event
+        emitOrderUpdate(order);
     } catch (err) {
         next(err);
     }
